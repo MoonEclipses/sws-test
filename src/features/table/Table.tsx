@@ -8,10 +8,11 @@ export enum RowState {
   UPDATE = 'update',
   CREATE = 'create',
 }
+export const editingState = [RowState.UPDATE, RowState.CREATE]
 
 export type Work = {
   id: number
-  rowState?: RowState
+  level: number
   parentId: number | null
   rowName: string
   salary: number
@@ -20,7 +21,8 @@ export type Work = {
   estimatedProfit: number
 }
 
-export type WorkDTO = Pick<Work, 'rowName' | 'salary' | 'equipmentCosts' | 'overheads' | 'estimatedProfit'>
+export type WorkDTOEdit = Pick<Work, 'rowName' | 'salary' | 'equipmentCosts' | 'overheads' | 'estimatedProfit'>
+export type WorkDTOGet = Work & { child: WorkDTOGet[] }
 
 export default function Table() {
   const { works } = useTableData()
@@ -38,7 +40,18 @@ export default function Table() {
           </tr>
           {works.map((work) => (
             <Fragment key={work.id}>
-              <Row work={work} />
+              <Row
+                work={work}
+                handleAdd={function (workDTO: WorkDTOEdit): void {
+                  console.log(workDTO)
+                }}
+                handleDelete={function (id: number): void {
+                  console.log(id)
+                }}
+                handleUpdate={function (id: number, workDTO: WorkDTOEdit): void {
+                  console.log(id)
+                }}
+              />
             </Fragment>
           ))}
         </tbody>

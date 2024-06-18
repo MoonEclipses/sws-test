@@ -1,13 +1,22 @@
 import { useEffect, useMemo, useState } from 'react'
-import { RowState, Work, WorkDTO } from '../Table'
-import { editingState } from '../components/Row'
+import { RowState, Work, WorkDTOEdit, editingState } from '../Table'
+
+const workIsCreating = (work: Work) => {
+  return (
+    work.rowName === '' &&
+    work.salary === 0 &&
+    work.equipmentCosts === 0 &&
+    work.overheads === 0 &&
+    work.estimatedProfit === 0
+  )
+}
 
 const useRow = (work: Work) => {
-  const [rowState, setRowState] = useState<RowState>(work.rowState || RowState.SHOW)
+  const [rowState, setRowState] = useState<RowState>(workIsCreating(work) ? RowState.CREATE : RowState.SHOW)
   useEffect(() => {
-    setRowState(work.rowState || RowState.SHOW)
+    setRowState(workIsCreating(work) ? RowState.CREATE : RowState.SHOW)
   }, [work])
-  const workDTO = useMemo<WorkDTO>(
+  const workDTO = useMemo<WorkDTOEdit>(
     () => ({
       rowName: work.rowName,
       salary: work.salary,
@@ -17,7 +26,7 @@ const useRow = (work: Work) => {
     }),
     [work],
   )
-  const workDTONames = Object.keys(workDTO) as Array<keyof WorkDTO>
+  const workDTONames = Object.keys(workDTO) as Array<keyof WorkDTOEdit>
   const isEditing = editingState.includes(rowState)
   return { rowState, isEditing, workDTO, workDTONames }
 }

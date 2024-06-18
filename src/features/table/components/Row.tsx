@@ -1,28 +1,24 @@
-import { RowState, Work, WorkDTO } from '../Table'
+import { RowState, Work, WorkDTOEdit } from '../Table'
 import InteractiveButtons from './InteractiveButtons'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import CellInput from './CellInput'
 import useRow from '../hooks/useRow'
 type RowProps = {
   work: Work
-  handleAdd: (workDTO: WorkDTO) => void
+  handleAdd: (workDTO: WorkDTOEdit) => void
   handleDelete: (id: number) => void
-  handleUpdate: (id: number, workDTO: WorkDTO) => void
+  handleUpdate: (id: number, workDTO: WorkDTOEdit) => void
 }
-export const editingState = [RowState.UPDATE, RowState.CREATE]
 
 export default function Row({ work }: RowProps) {
   const { isEditing, workDTO, workDTONames, rowState } = useRow(work)
-  const { register, handleSubmit } = useForm<WorkDTO>()
-  const onSubmit: SubmitHandler<WorkDTO> = (data) => console.log(data)
+  const { register, handleSubmit } = useForm<WorkDTOEdit>()
+  const onSubmit: SubmitHandler<WorkDTOEdit> = (data) => console.log(data)
 
   return (
     <tr className="works-table-row">
       <td className="works-table-cell">
         <InteractiveButtons />
-      </td>
-      <td className="works-table-cell">
-        {isEditing ? work.rowName : <CellInput handleEnter={handleSubmit(onSubmit)} register={register('rowName')} />}
       </td>
       {workDTONames.map((name) => (
         <td className="works-table-cell" key={name}>
