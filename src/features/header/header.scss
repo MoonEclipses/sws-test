@@ -1,7 +1,8 @@
 @use '/src/shared';
 
 .header {
-  border-bottom: solid 1px #414144;
+  border-bottom: shared.$default-border;
+  height: shared.$header-height;
   .navigation {
     display: flex;
     justify-content: start;
@@ -25,11 +26,11 @@
       .panel-button {
         @include shared.unbuttonize;
         font-size: 0.875rem;
-        color: #a1a1aa;
+        color: shared.$secondary-color;
         padding: 0 0.25rem;
         cursor: pointer;
         &-active {
-          color: white;
+          color: shared.$main-color;
           border-bottom: solid 2px white;
         }
       }

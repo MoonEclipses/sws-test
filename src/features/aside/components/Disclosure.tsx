@@ -3,7 +3,7 @@ import DisclosurePanel from './DisclosurePanel'
 
 export default function Disclosure() {
   return (
-    <div>
+    <div className="disclosure">
       <DisclosureButton />
       <DisclosurePanel />
     </div>

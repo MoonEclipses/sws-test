@@ -1,0 +1,45 @@
+@use '/src/shared';
+%bottom-line {
+  border-bottom: shared.$default-border;
+  font-size: 0.875rem;
+}
+
+.table-wrapper {
+  padding: 0.75rem 0.625rem;
+  overflow-x: auto;
+
+  .works-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    .works-table-row {
+      .works-table-header {
+        @extend %bottom-line;
+        color: shared.$secondary-color;
+        padding: 0 0.75rem 0.75rem 0.75rem;
+        font-weight: 400;
+        line-height: 1.3;
+      }
+      .works-table-cell {
+        @extend %bottom-line;
+        color: shared.$main-color;
+        padding: 1.125rem 0.75rem 1.125rem 0.75rem;
+        line-height: 1;
+        .button-wrapper {
+          height: 1.5rem;
+          overflow: hidden;
+        }
+      }
+      .small-coll {
+        width: 6.875rem;
+      }
+      .medium-coll {
+        width: 12.5rem;
+      }
+      .large-coll {
+        width: 47.3rem;
+      }
+    }
+  }
+}
