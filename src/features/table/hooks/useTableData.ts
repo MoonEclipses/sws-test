@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Work, WorkDTOEdit, WorkDTOGet } from '../Table'
 import findLastIndex from 'lodash/findLastIndex'
-import find from 'lodash/find'
+import findIndex from 'lodash/findIndex'
 
 const prepWork = (
   workDTO: WorkDTOEdit | WorkDTOGet,
@@ -54,8 +54,13 @@ const useTableData = () => {
 
   const removeWork = async (id: Work['id'], parentId: Work['parentId']) => {
     const newWorks = works.filter((work) => work.id !== id)
-    const parentWork = find(newWorks, (work) => work.id === parentId)
-    parentWork && (parentWork.totalChildren -= 1)
+    if (parentId != null) {
+      const parentWorkIndex = findIndex(newWorks, (work) => work.id === parentId)
+      newWorks[parentWorkIndex] = {
+        ...newWorks[parentWorkIndex],
+        totalChildren: newWorks[parentWorkIndex].totalChildren - 1,
+      }
+    }
     setWorks(newWorks)
     await fetch(`${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_ENTITY_ID}/row/${id}/delete`, {
       method: 'DELETE',
@@ -83,8 +88,6 @@ const useTableData = () => {
     setWorks((prevWorks) => {
       const newWorks = [...prevWorks]
       const index = newWorks.findIndex((work) => work.id === id)
-      const parentWork = find(newWorks, (work) => work.id === parentId)
-      parentWork && (parentWork.totalChildren += 1)
       newWorks.splice(index, 1, {
         ...newWork,
         level: newWorks[index].level,
@@ -100,6 +103,12 @@ const useTableData = () => {
       const newWorks = [...prevWorks]
       if (parentId !== null) {
         const index = findLastIndex(newWorks, (work) => work.parentId === parentId)
+        const parentWorkIndex = findIndex(newWorks, (work) => work.id === parentId)
+        newWorks[parentWorkIndex] = {
+          ...newWorks[parentWorkIndex],
+          totalChildren: newWorks[parentWorkIndex].totalChildren + 1,
+        }
+
         let finalIndex = index
         let level = 0
         if (finalIndex >= 0) {
