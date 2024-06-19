@@ -28,7 +28,7 @@ const useRow = (work: Work) => {
   )
   const workDTONames = Object.keys(workDTO) as Array<keyof WorkDTOEdit>
   const isEditing = editingState.includes(rowState)
-  return { rowState, isEditing, workDTO, workDTONames }
+  return { rowState, setRowState, isEditing, workDTO, workDTONames }
 }
 
 export default useRow

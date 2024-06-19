@@ -2,6 +2,7 @@ import { Fragment } from 'react/jsx-runtime'
 import useTableData from './hooks/useTableData'
 import Row from './components/Row'
 import './table.scss'
+import find from 'lodash/find'
 
 export enum RowState {
   SHOW = 'show',
@@ -19,13 +20,14 @@ export type Work = {
   equipmentCosts: number
   overheads: number
   estimatedProfit: number
+  totalChildren: number
 }
 
 export type WorkDTOEdit = Pick<Work, 'rowName' | 'salary' | 'equipmentCosts' | 'overheads' | 'estimatedProfit'>
-export type WorkDTOGet = Work & { child: WorkDTOGet[] }
+export type WorkDTOGet = WorkDTOEdit & { id: number; child: WorkDTOGet[]; total: number }
 
 export default function Table() {
-  const { works } = useTableData()
+  const { works, removeWork, addWork, addCreatingWork, updateWork } = useTableData()
   return (
     <div className="table-wrapper">
       <table className="works-table">
@@ -42,15 +44,10 @@ export default function Table() {
             <Fragment key={work.id}>
               <Row
                 work={work}
-                handleAdd={function (workDTO: WorkDTOEdit): void {
-                  console.log(workDTO)
-                }}
-                handleDelete={function (id: number): void {
-                  console.log(id)
-                }}
-                handleUpdate={function (id: number, workDTO: WorkDTOEdit): void {
-                  console.log(id)
-                }}
+                handleAdd={addWork}
+                handleDelete={removeWork}
+                handleUpdate={updateWork}
+                handleAddCreating={addCreatingWork}
               />
             </Fragment>
           ))}
