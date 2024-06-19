@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Work, WorkDTOEdit, WorkDTOGet } from '../Table'
 import findLastIndex from 'lodash/findLastIndex'
-import { find } from 'lodash'
+import find from 'lodash/find'
 
 const fallbackWorks = [
   {

@@ -2,7 +2,6 @@ import { Fragment } from 'react/jsx-runtime'
 import useTableData from './hooks/useTableData'
 import Row from './components/Row'
 import './table.scss'
-import find from 'lodash/find'
 
 export enum RowState {
   SHOW = 'show',
