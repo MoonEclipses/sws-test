@@ -3,101 +3,6 @@ import { Work, WorkDTOEdit, WorkDTOGet } from '../Table'
 import findLastIndex from 'lodash/findLastIndex'
 import find from 'lodash/find'
 
-const fallbackWorks = [
-  {
-    id: 86601,
-    rowName: 'Работа 1',
-    total: 1,
-    salary: 40000,
-    mimExploitation: 0,
-    machineOperatorSalary: 0,
-    materials: 0,
-    mainCosts: 0,
-    supportCosts: 0,
-    equipmentCosts: 24000,
-    overheads: 8000,
-    estimatedProfit: 80000,
-    child: [
-      {
-        id: 86838,
-        rowName: 'Работа 2',
-        total: 0,
-        salary: 20000,
-        mimExploitation: 0,
-        machineOperatorSalary: 0,
-        materials: 0,
-        mainCosts: 0,
-        supportCosts: 0,
-        equipmentCosts: 12000,
-        overheads: 4000,
-        estimatedProfit: 40000,
-        child: [],
-      },
-    ],
-  },
-  {
-    id: 86839,
-    rowName: 'Работа 3',
-    total: 0,
-    salary: 20000,
-    mimExploitation: 0,
-    machineOperatorSalary: 0,
-    materials: 0,
-    mainCosts: 0,
-    supportCosts: 0,
-    equipmentCosts: 12000,
-    overheads: 4000,
-    estimatedProfit: 40000,
-    child: [],
-  },
-  {
-    id: 86840,
-    rowName: 'Работа 4',
-    total: 2,
-    salary: 60000,
-    mimExploitation: 0,
-    machineOperatorSalary: 0,
-    materials: 0,
-    mainCosts: 0,
-    supportCosts: 0,
-    equipmentCosts: 36000,
-    overheads: 12000,
-    estimatedProfit: 120000,
-    child: [
-      {
-        id: 86841,
-        rowName: 'Работа 5',
-        total: 0,
-        salary: 20000,
-        mimExploitation: 0,
-        machineOperatorSalary: 0,
-        materials: 0,
-        mainCosts: 0,
-        supportCosts: 0,
-        equipmentCosts: 12000,
-        overheads: 4000,
-        estimatedProfit: 40000,
-        child: [],
-      },
-      {
-        id: 86856,
-        rowName: 'Работа 6',
-        total: 0,
-        salary: 20000,
-        mimExploitation: 0,
-        machineOperatorSalary: 0,
-        materials: 0,
-        mainCosts: 0,
-        supportCosts: 0,
-        equipmentCosts: 12000,
-        overheads: 4000,
-        estimatedProfit: 40000,
-        child: [],
-      },
-    ],
-  },
-]
-
 const prepWork = (
   workDTO: WorkDTOEdit | WorkDTOGet,
   id: Work['id'],
@@ -121,13 +26,9 @@ const prepWork = (
 const useTableData = () => {
   const [works, setWorks] = useState<Array<Work>>([])
   const getWorks = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_ENTITY_ID}/row/list`)
-      const workList = (await response.json()) as WorkDTOGet[]
-      return workList
-    } catch {
-      return fallbackWorks
-    }
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_ENTITY_ID}/row/list`)
+    const workList = (await response.json()) as WorkDTOGet[]
+    return workList
   }
 
   useEffect(() => {
